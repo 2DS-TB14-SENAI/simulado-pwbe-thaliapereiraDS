@@ -3,7 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.tokens import RefreshToken
-from .models import CustomUser
+from .models import Usuario
 from .serializers import CustomUserSerializer
 
 class RegistroUsuarioView(APIView):
@@ -24,7 +24,7 @@ class LoginUsuarioView(APIView):
         password = request.data.get("password")
         
         try:
-            user = CustomUser.objects.get(username=username)
+            user = Usuario.objects.get(username=username)
             if user.check_password(password):
                 refresh = RefreshToken.for_user(user)
                 return Response({
@@ -32,5 +32,5 @@ class LoginUsuarioView(APIView):
                     "access": str(refresh.access_token),
                 })
             return Response({"detail": "Senha incorreta"}, status=status.HTTP_401_UNAUTHORIZED)
-        except CustomUser.DoesNotExist:
+        except Usuario.DoesNotExist:
             return Response({"detail": "Usuário não encontrado"}, status=status.HTTP_404_NOT_FOUND)
