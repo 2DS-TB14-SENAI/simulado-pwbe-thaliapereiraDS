@@ -8,7 +8,7 @@ from .serializers import LivroSerializer
 
 def listar_livros(request):
     livros = Livro.objects.all()
-    return render(request, 'livros/livros.html', {'livros': livros})
+    return render(request, 'livros.html', {'livros': livros})
 
 
 @api_view(['GET', 'POST'])
